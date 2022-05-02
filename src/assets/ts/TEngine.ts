@@ -29,13 +29,13 @@ export class TEngine {
     //创建一个box几何体
     const box:Mesh = new Mesh(
       new BoxBufferGeometry(10,10,10),
-      new MeshStandardMaterial({color:'rgb(0,255,0)'})  //给几何体加上颜色
+      new MeshStandardMaterial({color:'rgb(100,255,0)'})  //给几何体加上颜色
     )
     
     const ambientLight:AmbientLight = new AmbientLight('rgb(255,255,255)',1)  //添加灯光
 
     const axesHelper:AxesHelper = new AxesHelper(500)
-    const gridHelper:GridHelper = new GridHelper(500,10,'rgb(200,200,200)','rgb(100,100,100')
+    const gridHelper:GridHelper = new GridHelper(500,10,'rgb(200,200,200)','rgb(100,100,100)')
     
 
     this.scene.add(box)
@@ -46,6 +46,18 @@ export class TEngine {
     // this.renderer.setClearColor('rgb(2552,255,255)') //白色场景
     // this.renderer.clearColor() //在没有灯光时需要
 
-    this.renderer.render(this.scene,this.camera) //渲染场景和相机
+    // this.renderer.render(this.scene,this.camera) //渲染场景和相机
+
+    // 动画方法,使用递归
+    const renderFun = () => {
+      
+      box.position.x += -0.01  // 让几何体的x轴移动
+      box.rotation.y += 0.001  // 让几何体的y轴移动
+      this.camera.position.x += -0.01   // 让相机也跟着移动
+      
+      this.renderer.render(this.scene,this.camera) //渲染场景和相机
+      requestAnimationFrame(renderFun)
+    }
+    renderFun()
   }
 }
