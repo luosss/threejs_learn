@@ -1,4 +1,4 @@
-import {AmbientLight, BoxBufferGeometry, Mesh, MeshStandardMaterial, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three'
+import {AmbientLight, AxesHelper, BoxBufferGeometry, GridHelper, Mesh, MeshStandardMaterial, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three'
 export class TEngine {
   private dom: HTMLElement
   private renderer: WebGLRenderer
@@ -34,11 +34,14 @@ export class TEngine {
     
     const ambientLight:AmbientLight = new AmbientLight('rgb(255,255,255)',1)  //添加灯光
 
+    const axesHelper:AxesHelper = new AxesHelper(500)
+    const gridHelper:GridHelper = new GridHelper(500,10,'rgb(200,200,200)','rgb(100,100,100')
     
-
 
     this.scene.add(box)
     this.scene.add(ambientLight)
+    this.scene.add(axesHelper)
+    this.scene.add(gridHelper)
     //在没有灯光的时候需要加上
     // this.renderer.setClearColor('rgb(2552,255,255)') //白色场景
     // this.renderer.clearColor() //在没有灯光时需要
