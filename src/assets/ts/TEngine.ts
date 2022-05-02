@@ -1,4 +1,4 @@
-import {BoxBufferGeometry, Mesh, MeshStandardMaterial, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three'
+import {AmbientLight, BoxBufferGeometry, Mesh, MeshStandardMaterial, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three'
 export class TEngine {
   private dom: HTMLElement
   private renderer: WebGLRenderer
@@ -29,12 +29,20 @@ export class TEngine {
     //创建一个box几何体
     const box:Mesh = new Mesh(
       new BoxBufferGeometry(10,10,10),
-      new MeshStandardMaterial()
+      new MeshStandardMaterial({color:'rgb(0,255,0)'})  //给几何体加上颜色
     )
+    
+    const ambientLight:AmbientLight = new AmbientLight('rgb(255,255,255)',1)  //添加灯光
+
+    
+
 
     this.scene.add(box)
-    this.renderer.setClearColor('rgb(2552,255,255)') //白色场景
-    this.renderer.clearColor()
+    this.scene.add(ambientLight)
+    //在没有灯光的时候需要加上
+    // this.renderer.setClearColor('rgb(2552,255,255)') //白色场景
+    // this.renderer.clearColor() //在没有灯光时需要
+
     this.renderer.render(this.scene,this.camera) //渲染场景和相机
   }
 }
