@@ -1,4 +1,6 @@
 import {AmbientLight, AxesHelper, BoxBufferGeometry, GridHelper, Mesh, MeshStandardMaterial, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three'
+
+import Stats from 'three/examples/jsm/libs/stats.module'
 export class TEngine {
   private dom: HTMLElement
   private renderer: WebGLRenderer
@@ -19,7 +21,6 @@ export class TEngine {
     this.camera.lookAt(new Vector3(0,0,0))  //相机的视角
     this.camera.up = new Vector3(0,1,0)   //相机的朝向
 
-    dom.appendChild(this.renderer.domElement)
     //给画布设置大小的第一种方式
     // this.renderer.domElement.width = dom.offsetWidth
     // this.renderer.domElement.height = dom.offsetHeight
@@ -34,6 +35,7 @@ export class TEngine {
     
     const ambientLight:AmbientLight = new AmbientLight('rgb(255,255,255)',1)  //添加灯光
 
+    //添加辅助线
     const axesHelper:AxesHelper = new AxesHelper(500)
     const gridHelper:GridHelper = new GridHelper(500,10,'rgb(200,200,200)','rgb(100,100,100)')
     
@@ -47,6 +49,15 @@ export class TEngine {
     // this.renderer.clearColor() //在没有灯光时需要
 
     // this.renderer.render(this.scene,this.camera) //渲染场景和相机
+    
+    // 添加性能监视器
+    const stats = Stats()
+    const statsDom = stats.domElement
+    statsDom.style.position = 'fixed'
+    statsDom.style.top = '0'
+    statsDom.style.right= '5px'
+    statsDom.style.left = 'unset'  
+    
 
     // 动画方法,使用递归
     const renderFun = () => {
@@ -56,8 +67,15 @@ export class TEngine {
       this.camera.position.x += -0.01   // 让相机也跟着移动
       
       this.renderer.render(this.scene,this.camera) //渲染场景和相机
+
+      stats.update()
+      
       requestAnimationFrame(renderFun)
     }
     renderFun()
+
+    dom.appendChild(this.renderer.domElement)  //将dom元素插入到场景中
+    dom.appendChild(statsDom) //将性能监视器插入到场景中
+
   }
 }
